@@ -2,6 +2,7 @@ package de.Fynn;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
@@ -15,15 +16,14 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
-public class Main {
+public class Main
+{
 
-    private float red = 0;
-    private float green = 1;
-    private float blue = 0;
     // The window handle
     private long window;
 
-    public void run() {
+    public void run()
+    {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
 
         init();
@@ -38,13 +38,14 @@ public class Main {
         glfwSetErrorCallback(null).free();
     }
 
-    private void init() {
+    private void init()
+    {
         // Setup an error callback. The default implementation
         // will print the error message in System.err.
         GLFWErrorCallback.createPrint(System.err).set();
 
         // Initialize GLFW. Most GLFW functions will not work before doing this.
-        if ( !glfwInit() )
+        if(!glfwInit())
             throw new IllegalStateException("Unable to initialize GLFW");
 
         // Configure GLFW
@@ -54,22 +55,22 @@ public class Main {
 
         // Create the window
         window = glfwCreateWindow(700, 700, "Hello World!", NULL, NULL);
-        if ( window == NULL )
+        if(window == NULL)
             throw new RuntimeException("Failed to create the GLFW window");
 
         // Setup a key callback. It will be called every time a key is pressed, repeated or released.
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-            if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
+            if(key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
                 glfwSetWindowShouldClose(window, true);
-            if ( key == GLFW_KEY_SPACE && action == GLFW_RELEASE )
+            if(key == GLFW_KEY_SPACE && action == GLFW_RELEASE)
             {
-                blue = 1;
-                green = 0;
+                glClearColor(0, 0, 5, 0);
             }
         });
 
         // Get the thread stack and push a new frame
-        try ( MemoryStack stack = stackPush() ) {
+        try(MemoryStack stack = stackPush())
+        {
             IntBuffer pWidth = stack.mallocInt(1); // int*
             IntBuffer pHeight = stack.mallocInt(1); // int*
 
@@ -96,7 +97,8 @@ public class Main {
         glfwShowWindow(window);
     }
 
-    private void loop() {
+    private void loop()
+    {
         // This line is critical for LWJGL's interoperation with GLFW's
         // OpenGL context, or any context that is managed externally.
         // LWJGL detects the context that is current in the current thread,
@@ -109,12 +111,13 @@ public class Main {
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
-        while ( !glfwWindowShouldClose(window) ) {
+        while(!glfwWindowShouldClose(window))
+        {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
 
             glBegin(GL_QUADS);
-            glColor3f(red,green,blue);
+            glColor3f(0, 4, 0);
             glVertex2f(0.5f, 0.5f);
             glVertex2f(0.5f, -0.5f);
             glVertex2f(-0.5f, -0.5f);
@@ -129,7 +132,8 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         new Main().run();
     }
 
