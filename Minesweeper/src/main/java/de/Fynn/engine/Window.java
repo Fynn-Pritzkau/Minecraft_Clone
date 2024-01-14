@@ -64,6 +64,12 @@ public class Window
         if(glfwWindow == NULL)
             throw new IllegalStateException("Failed to create the GLFW window");
 
+        glfwSetCursorPosCallback(glfwWindow, MouseListener::mousePosCallback);
+        glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
+        glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
+        glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
+
+
         glfwMakeContextCurrent(glfwWindow);
 
         // Enable v-sync
@@ -80,7 +86,14 @@ public class Window
         {
             glfwPollEvents();
 
+            glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
             glfwSwapBuffers(glfwWindow);
+
+            if(KeyListener.isKeyPressed(GLFW_KEY_SPACE))
+            {
+                System.out.println("Space");
+            }
+
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         }
     }
